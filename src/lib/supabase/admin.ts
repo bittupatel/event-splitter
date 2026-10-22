@@ -9,6 +9,15 @@ export function cleanSupabaseUrl(raw?: string): string {
     url = url.split('=').pop()?.trim() ?? url;
   }
   url = url.replace(/^["']|["']$/g, '').trim();
+
+  // Handle accidental multiple pastes or space/comma separated URLs
+  if (/\s|,/.test(url)) {
+    const tokens = url.split(/[\s,]+/).map((t) => t.replace(/^["']|["']$/g, '').trim()).filter(Boolean);
+    const candidate = tokens.find((t) => t.includes('.supabase.')) || tokens.find((t) => t.startsWith('http')) || tokens[0];
+    url = candidate ?? url;
+  }
+
+  url = url.replace(/^["']|["']$/g, '').trim();
   url = url.replace(/\.supabase\.com(\/.*)?$/, (_m, rest) => `.supabase.co${rest ?? ''}`);
   url = url.replace(/\/+$/, '');
   return url;
@@ -20,6 +29,15 @@ export function cleanSupabaseKey(raw?: string): string {
   if (key.includes('=')) {
     key = key.split('=').pop()?.trim() ?? key;
   }
+  key = key.replace(/^["']|["']$/g, '').trim();
+
+  // Handle accidental multiple pastes or space/comma separated keys
+  if (/\s|,/.test(key)) {
+    const tokens = key.split(/[\s,]+/).map((t) => t.replace(/^["']|["']$/g, '').trim()).filter(Boolean);
+    const candidate = tokens.find((t) => t.startsWith('eyJ')) || tokens[0];
+    key = candidate ?? key;
+  }
+
   return key.replace(/^["']|["']$/g, '').trim();
 }
 

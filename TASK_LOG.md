@@ -51,6 +51,23 @@
   - Verified TypeScript compilation with `npm run typecheck` (0 errors).
   - Executed automated tests with `npm test` (18/18 passing).
 
+#### Task ID: `TSK-20261023-03`
+- **Task Name:** Robust Multi-Value Token & Duplicated Supabase URL/Key Sanitization
+- **Category:** Bug Fix & Resiliency
+- **Status:** ✅ **COMPLETED**
+- **Triggered By:** Admin Login Screenshot Analysis
+- **Context & Objectives:** The error message on Vercel revealed that `NEXT_PUBLIC_SUPABASE_URL` in Vercel settings had the URL pasted 5 times separated by spaces (`https://... https://...`).
+- **Actions Taken:**
+  1. Enhanced `cleanSupabaseUrl` in `src/lib/supabase/admin.ts` to tokenize multiple space/comma-separated strings and extract the first valid Supabase URL.
+  2. Enhanced `cleanSupabaseKey` to tokenize space/comma-separated keys and extract the valid JWT key (`eyJ...`).
+  3. Added comprehensive automated tests in `src/lib/supabase/admin.test.ts`.
+- **Files Modified / Created:**
+  - `src/lib/supabase/admin.ts`
+  - `src/lib/supabase/admin.test.ts`
+- **Verification & Outcome:**
+  - Ran `npm test` (23/23 tests passing across 4 test suites).
+  - Ran `npm run typecheck` (0 errors).
+
 ---
 
 ### 📅 October 22, 2026

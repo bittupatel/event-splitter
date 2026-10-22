@@ -39,6 +39,17 @@
   - `src/app/page.tsx`
 - **Verification:** Ran `npm run typecheck` (0 errors) and `npm test` (18/18 passing).
 
+#### 3. Multi-Token / Repeated Env Variable Auto-Healing
+- **Type:** Bug Fix / Resiliency / Auto-Healing
+- **Description:**
+  - Resolved `fetch failed` error where `NEXT_PUBLIC_SUPABASE_URL` was configured in Vercel with multiple repeated URLs concatenated with spaces (`https://... https://...`).
+  - Upgraded `cleanSupabaseUrl` and `cleanSupabaseKey` to tokenize space- and comma-separated inputs and pick the first valid endpoint / JWT token automatically.
+  - Added unit test suite in `src/lib/supabase/admin.test.ts`.
+- **Affected Files:**
+  - `src/lib/supabase/admin.ts`
+  - `src/lib/supabase/admin.test.ts`
+- **Verification:** Ran `npm test` (23/23 tests passing) and `npm run typecheck` (0 errors).
+
 ---
 
 ### 📅 October 22, 2026
