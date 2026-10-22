@@ -1,10 +1,12 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
+import { cleanSupabaseKey, cleanSupabaseUrl } from '@/lib/supabase/admin';
+
 /** Keeps the admin's Supabase session cookie fresh on admin routes. */
 export async function proxy(req: NextRequest) {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const url = cleanSupabaseUrl(process.env.NEXT_PUBLIC_SUPABASE_URL);
+  const anon = cleanSupabaseKey(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
   let res = NextResponse.next({ request: req });
   if (!url || !anon) return res;
 

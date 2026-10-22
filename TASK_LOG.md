@@ -29,6 +29,28 @@
   - Checked directory structure.
   - Ran `npm test` (18/18 passing) and `npm run typecheck` (0 errors).
 
+#### Task ID: `TSK-20261023-02`
+- **Task Name:** Fix Network "fetch failed" Errors & Sanitize Supabase Environment Configurations
+- **Category:** Bug Fix & Developer Experience
+- **Status:** ✅ **COMPLETED**
+- **Triggered By:** User Report / Deployment Bug (`fetch failed` on Vercel)
+- **Context & Objectives:** Masked errors and raw network exceptions (`fetch failed`) occurred on the deployed Vercel application when connecting to Supabase endpoints. The objectives were to:
+  1. Build an automated sanitizer for Supabase URLs and keys to handle trailing slashes, surrounding quotes, leading/trailing whitespace, full `NAME=VALUE` copy-paste accidents, and `.supabase.com` typos.
+  2. Provide clear, human-readable diagnostic messages on both the home page and admin login when network connection fails.
+- **Actions Taken:**
+  1. Created `cleanSupabaseUrl` and `cleanSupabaseKey` utility functions in `src/lib/supabase/admin.ts`.
+  2. Updated `db()` in `src/lib/supabase/admin.ts`, `authClient()` in `src/lib/supabase/server.ts`, and `proxy()` in `src/proxy.ts` to sanitize all environment variables.
+  3. Added friendly error handlers in `src/app/admin/actions.ts` (`adminLogin`) and `src/app/page.tsx` (`Home`) that display the attempted host URL and clear troubleshooting steps on `fetch failed`.
+- **Files Modified:**
+  - `src/lib/supabase/admin.ts`
+  - `src/lib/supabase/server.ts`
+  - `src/proxy.ts`
+  - `src/app/admin/actions.ts`
+  - `src/app/page.tsx`
+- **Verification & Outcome:**
+  - Verified TypeScript compilation with `npm run typecheck` (0 errors).
+  - Executed automated tests with `npm test` (18/18 passing).
+
 ---
 
 ### 📅 October 22, 2026

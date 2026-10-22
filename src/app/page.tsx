@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { CoverArt } from '@/components/CoverArt';
 import { Backdrop } from '@/components/Backdrop';
 import { getPublicEvents } from '@/lib/event-data';
-import { supabaseConfigured } from '@/lib/supabase/admin';
+import { cleanSupabaseUrl, supabaseConfigured } from '@/lib/supabase/admin';
 import { fmtDate } from '@/lib/money';
 import { THEMES, THEME_KEYS, asTheme } from '@/lib/themes';
 import type { PublicEvent } from '@/lib/types';
@@ -64,7 +64,12 @@ export default async function Home() {
     try {
       events = await getPublicEvents();
     } catch (e: any) {
-      problem = `Events could not be loaded: ${e?.message ?? 'unknown database error'}`;
+      const url = cleanSupabaseUrl(process.env.NEXT_PUBLIC_SUPABASE_URL);
+      if (e?.message === 'fetch failed' || e?.name === 'TypeError') {
+        problem = `Events could not be loaded ("fetch failed"). Attempted Supabase URL: "${url || 'NOT CONFIGURED'}". Check NEXT_PUBLIC_SUPABASE_URL in Vercel settings and ensure project is unpaused.`;
+      } else {
+        problem = `Events could not be loaded: ${e?.message ?? 'unknown database error'}`;
+      }
     }
   }
   const marquee = [...WORDS, ...WORDS];

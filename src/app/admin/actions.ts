@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs';
 import { redirect } from 'next/navigation';
 import { adminEmails, requireAdmin } from '@/lib/auth-admin';
 import { authClient } from '@/lib/supabase/server';
-import { db } from '@/lib/supabase/admin';
+import { cleanSupabaseUrl, db } from '@/lib/supabase/admin';
 import { THEMES } from '@/lib/themes';
 import { field, isDate, isEmail } from '@/lib/validate';
 import { go } from '@/lib/nav';
@@ -20,17 +20,34 @@ export async function adminLogin(_prev: AuthState, fd: FormData): Promise<AuthSt
   // Only the configured administrator address may sign in or create the account.
   if (!adminEmails().includes(email)) return { error: 'That email is not the event administrator.' };
 
-  const sb = await authClient();
-  if (mode === 'signup') {
-    const { error } = await sb.auth.signUp({ email, password });
-    if (error) return { error: 'Could not create the account. If it already exists, sign in instead.' };
-    return { info: 'Account created. Open the confirmation email, then come back and sign in.' };
+  try {
+    const sb = await authClient();
+    if (mode === 'signup') {
+      const { error } = await sb.auth.signUp({ email, password });
+      if (error) {
+        if (error.message === 'fetch failed') {
+          const url = cleanSupabaseUrl(process.env.NEXT_PUBLIC_SUPABASE_URL);
+          return { error: `Could not reach Supabase ("fetch failed"). Attempted URL: "${url || 'NOT CONFIGURED'}". Check NEXT_PUBLIC_SUPABASE_URL in Vercel settings and ensure project is unpaused.` };
+        }
+        return { error: error.message };
+      }
+      return { info: 'Account created. Open the confirmation email, then come back and sign in.' };
+    }
+
+    const { error } = await sb.auth.signInWithPassword({ email, password });
+    if (error) {
+      if (error.message === 'fetch failed') {
+        const url = cleanSupabaseUrl(process.env.NEXT_PUBLIC_SUPABASE_URL);
+        return { error: `Could not reach Supabase ("fetch failed"). Attempted URL: "${url || 'NOT CONFIGURED'}". Check NEXT_PUBLIC_SUPABASE_URL in Vercel settings and ensure project is unpaused.` };
+      }
+      return { error: error.message };
+    }
+  } catch (err: any) {
+    if (err?.digest?.startsWith?.('NEXT_REDIRECT')) throw err;
+    const url = cleanSupabaseUrl(process.env.NEXT_PUBLIC_SUPABASE_URL);
+    return { error: `${err?.message || 'Authentication error'}. Attempted Supabase URL: "${url || 'NOT CONFIGURED'}".` };
   }
 
-  const { error } = await sb.auth.signInWithPassword({ email, password });
-  if (error) {
-    return { error: error.message };
-  }
   redirect('/admin');
 }
 

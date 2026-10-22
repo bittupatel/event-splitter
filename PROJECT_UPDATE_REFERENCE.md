@@ -24,6 +24,21 @@
   - `TASK_LOG.md`
   - `TASK_LIST.md`
 
+#### 2. Supabase Environment Sanitization & Network Failure Diagnostics
+- **Type:** Bug Fix / Developer Experience / Error Handling
+- **Description:**
+  - Diagnosed `fetch failed` error on Vercel deployment caused by unreachable Supabase endpoint / environment variable formatting issues.
+  - Implemented `cleanSupabaseUrl` and `cleanSupabaseKey` in `src/lib/supabase/admin.ts` to automatically strip accidental quotation marks, whitespace, trailing slashes, full `VAR=...` copy-paste prefixes, and correct `.supabase.com` typos to `.supabase.co`.
+  - Integrated sanitizers into `src/lib/supabase/server.ts`, `src/lib/supabase/admin.ts`, and `src/proxy.ts`.
+  - Enhanced error handling in `src/app/admin/actions.ts` and `src/app/page.tsx` to detect `fetch failed` network errors and display explicit diagnostic instructions including the attempted host and reminders to verify Vercel environment variables and project status.
+- **Affected Files:**
+  - `src/lib/supabase/admin.ts`
+  - `src/lib/supabase/server.ts`
+  - `src/proxy.ts`
+  - `src/app/admin/actions.ts`
+  - `src/app/page.tsx`
+- **Verification:** Ran `npm run typecheck` (0 errors) and `npm test` (18/18 passing).
+
 ---
 
 ### 📅 October 22, 2026

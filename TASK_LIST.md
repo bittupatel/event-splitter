@@ -12,7 +12,7 @@
 | **Active / In Progress** | 0 |
 | **Ready for Development (High Priority)** | 4 |
 | **Upcoming Backlog** | 6 |
-| **Completed Tasks** | 8 |
+| **Completed Tasks** | 10 |
 
 ---
 
@@ -26,7 +26,7 @@
 
 The following tasks are prioritized for the next phase of development:
 
-### 1. `TASK-010`: Participant Profile Customization (Avatars & Preferences)
+### 1. `TASK-011`: Participant Profile Customization (Avatars & Preferences)
 - **Priority:** `P1 (High)`
 - **Category:** User Experience / Database
 - **Date Added:** October 23, 2026
@@ -37,7 +37,7 @@ The following tasks are prioritized for the next phase of development:
   - UPI ID displayed directly in the Settle Up section for 1-click payment links (`upi://pay?pa=...`).
 - **Dependencies:** None.
 
-### 2. `TASK-011`: Category Tagging & Expense Filters
+### 2. `TASK-012`: Category Tagging & Expense Filters
 - **Priority:** `P1 (High)`
 - **Category:** Feature Addition
 - **Date Added:** October 23, 2026
@@ -48,7 +48,7 @@ The following tasks are prioritized for the next phase of development:
   - Expense filtering by category and date range on both Admin and Participant views.
   - Category breakdown chart added to Admin analytics and downloadable HTML report.
 
-### 3. `TASK-012`: Expense Item Editing & Deletion for Participants
+### 3. `TASK-013`: Expense Item Editing & Deletion for Participants
 - **Priority:** `P2 (Medium)`
 - **Category:** Permissions & Usability
 - **Date Added:** October 23, 2026
@@ -57,7 +57,7 @@ The following tasks are prioritized for the next phase of development:
   - Check `added_by` or participant identity before permitting update/deletion.
   - Admin retains universal edit/delete rights.
 
-### 4. `TASK-013`: Direct Settlement Marking & Payment Confirmation
+### 4. `TASK-014`: Direct Settlement Marking & Payment Confirmation
 - **Priority:** `P2 (Medium)`
 - **Category:** Financial Workflows
 - **Date Added:** October 23, 2026
@@ -71,21 +71,21 @@ The following tasks are prioritized for the next phase of development:
 ## 📋 Future Roadmap & Backlog
 
 ### Category: Analytics & Exports
-- **`TASK-014`**: **CSV / Excel Spreadsheet Export:**
+- **`TASK-015`**: **CSV / Excel Spreadsheet Export:**
   - Allow admin and participants to download a `.csv` or `.xlsx` file containing all raw expense line items, dates, payers, and amounts.
-- **`TASK-015`**: **PDF Report Export:**
+- **`TASK-016`**: **PDF Report Export:**
   - In addition to standalone HTML, offer a clean single-click printable PDF generation option.
 
 ### Category: Communication & Notifications
-- **`TASK-016`**: **WhatsApp Shareable Settlement Summary:**
+- **`TASK-017`**: **WhatsApp Shareable Settlement Summary:**
   - Generate a formatted WhatsApp message (e.g., *"🎉 Lantern Night Split Summary: Rekha owes Arun ₹87..."*) with a 1-click `https://wa.me/?text=...` button.
-- **`TASK-017`**: **Automated Email Notifications for Added Expenses:**
+- **`TASK-018`**: **Automated Email Notifications for Added Expenses:**
   - Dispatch a daily summary email to participants listing items added during that day.
 
 ### Category: Media & UI Enhancements
-- **`TASK-018`**: **Photo Captions & Uploader Credits in Gallery:**
+- **`TASK-019`**: **Photo Captions & Uploader Credits in Gallery:**
   - Allow attaching captions to gallery photos and noting who took or uploaded the picture.
-- **`TASK-019`**: **Dark / Light Theme Toggle:**
+- **`TASK-020`**: **Dark / Light Theme Toggle:**
   - Add optional user toggle for dark mode and high-contrast accessibility.
 
 ---
@@ -103,6 +103,7 @@ The following tasks are prioritized for the next phase of development:
 | `TASK-007` | Event-scoped participant login with email, password & OTP verification | Oct 22, 2026 | Security |
 | `TASK-008` | Automated test suite (18 tests passing) & seed script for Pizza/Mazza case | Oct 22, 2026 | Testing |
 | `TASK-009` | Comprehensive documentation setup (`PROJECT_ARCHITECTURE`, `UPDATE_REF`, `TASK_LOG`, `TASK_LIST`) | Oct 23, 2026 | Documentation |
+| `TASK-010` | Fix network "fetch failed" errors & sanitize Supabase environment configs | Oct 23, 2026 | Bug Fix / DX |
 
 ---
 
