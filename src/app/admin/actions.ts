@@ -29,7 +29,7 @@ export async function adminLogin(_prev: AuthState, fd: FormData): Promise<AuthSt
 
   const { error } = await sb.auth.signInWithPassword({ email, password });
   if (error) {
-    return { error: /confirm/i.test(error.message) ? 'Confirm your email first, then sign in.' : 'Email or password is incorrect.' };
+    return { error: error.message };
   }
   redirect('/admin');
 }

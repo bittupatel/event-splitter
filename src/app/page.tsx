@@ -63,8 +63,8 @@ export default async function Home() {
   } else {
     try {
       events = await getPublicEvents();
-    } catch {
-      problem = 'Events could not be loaded right now. Please try again in a moment.';
+    } catch (e: any) {
+      problem = `Events could not be loaded: ${e?.message ?? 'unknown database error'}`;
     }
   }
   const marquee = [...WORDS, ...WORDS];
